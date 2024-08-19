@@ -1,6 +1,7 @@
 package com.projetMedecine.Modele;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,4 +18,14 @@ public class Salle {
     @Column(name="nom_salle")
     private String nomSalle;
 
+    @ManyToOne(
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            },
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name="id_cabinet")
+    @JsonBackReference
+    private CabinetMedical cabinetMedical;
 }

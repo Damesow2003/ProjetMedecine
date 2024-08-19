@@ -1,5 +1,6 @@
 package com.projetMedecine.Modele;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,9 +33,8 @@ public class CabinetMedical {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            orphanRemoval = true
+            mappedBy = "cabinetMedical"
     )
-    @JoinColumn(name="id_cabinet")
-    private List<Salle> salles = new ArrayList<>();
+    @JsonManagedReference
+     List<Salle> salles = new ArrayList<>();
 }
