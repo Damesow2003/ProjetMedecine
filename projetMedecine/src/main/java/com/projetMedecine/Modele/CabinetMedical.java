@@ -33,6 +33,7 @@ public class CabinetMedical {
 
     @OneToMany(
             cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             mappedBy = "cabinetMedical"
     )
     @JsonManagedReference
@@ -45,6 +46,5 @@ public class CabinetMedical {
             mappedBy = "cabinetMedical"
     )
     @JsonManagedReference
-
     private List<Rendezvous> rendezvous = new ArrayList<>();
 }

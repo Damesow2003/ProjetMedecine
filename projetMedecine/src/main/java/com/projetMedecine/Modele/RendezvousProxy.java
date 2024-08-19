@@ -15,5 +15,4 @@ public class RendezvousProxy {
     private List<Long> idNotification;
     private List<Long> idPrescription;
     private Long idPaiement;
-
 }

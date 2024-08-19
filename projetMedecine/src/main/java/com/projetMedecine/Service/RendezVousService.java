@@ -2,10 +2,7 @@ package com.projetMedecine.Service;
 
 import com.projetMedecine.Exceptions.PaiementNotFound;
 import com.projetMedecine.Modele.*;
-import com.projetMedecine.Repository.NotificationRepository;
-import com.projetMedecine.Repository.PaiementRepository;
-import com.projetMedecine.Repository.PrescriptionRepository;
-import com.projetMedecine.Repository.RendezVousRepository;
+import com.projetMedecine.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,8 @@ public class RendezVousService {
     private PaiementRepository paiementRepository;
     @Autowired
     private RendezVousRepository rendezVousRepository;
-
+    @Autowired
+    private CabinetMedicalRepository cabinetMedicalRepository;
 
     public Iterable<Rendezvous> listRendezvous(){
         return rendezVousRepository.findAll();
@@ -41,7 +39,7 @@ public class RendezVousService {
         newRendezvous.setDuree(rendezvousProxy.getDuree());
 
         //Association avec Notification
-        List<Notification> notificationList = notificationRepository.findAllById(rendezvousProxy.getIdNotification());
+        /*List<Notification> notificationList = notificationRepository.findAllById(rendezvousProxy.getIdNotification());
         newRendezvous.setNotifications(notificationList);
 
         //Association avec Prescription
@@ -51,7 +49,8 @@ public class RendezVousService {
         //Association avec Paiement
         Optional<Paiement> existingPaiement = Optional.ofNullable(paiementRepository.findById(rendezvousProxy.getIdPaiement())
                 .orElseThrow(() -> new PaiementNotFound("Paiement non trouve")));
-        newRendezvous.setPaiement(existingPaiement.get());
+        newRendezvous.setPaiement(existingPaiement.get());*/
+
         return rendezVousRepository.save(newRendezvous);
     }
 
