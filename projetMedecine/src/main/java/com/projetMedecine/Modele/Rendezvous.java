@@ -1,5 +1,6 @@
 package com.projetMedecine.Modele;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -54,6 +55,18 @@ public class Rendezvous {
     )
     @JsonManagedReference
     List<Prescription> prescriptions = new ArrayList<Prescription>();
+
+    @ManyToOne(
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            },
+            fetch = FetchType.LAZY
+
+    )
+    @JoinColumn(name = "id_cabinet")
+    @JsonBackReference
+    private CabinetMedical cabinetMedical;
 
     //methode Utilitaire Notification(helpers methode)
 

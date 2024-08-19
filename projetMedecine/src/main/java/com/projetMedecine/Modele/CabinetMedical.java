@@ -37,4 +37,14 @@ public class CabinetMedical {
     )
     @JsonManagedReference
      List<Salle> salles = new ArrayList<>();
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            mappedBy = "cabinetMedical"
+    )
+    @JsonManagedReference
+
+    private List<Rendezvous> rendezvous = new ArrayList<>();
 }

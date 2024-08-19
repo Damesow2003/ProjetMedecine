@@ -45,4 +45,5 @@ public class CabinetMedicalController {
 
         return ResponseEntity.ok(updateCabinet);
     }
+
 }
