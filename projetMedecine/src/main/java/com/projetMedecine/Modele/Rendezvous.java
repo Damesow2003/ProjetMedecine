@@ -22,7 +22,6 @@ public class Rendezvous {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_rendezvous")
     Long id;
-
     @Column(name="date_rv")
     @NotNull(message = "La date de rendez-vous ne doit pas etre null")
     private LocalDate dateRv;
