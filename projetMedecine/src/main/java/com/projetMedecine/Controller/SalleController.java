@@ -37,7 +37,11 @@ public class SalleController {
 
     @PutMapping("/salles/{id}")
     public ResponseEntity<Salle> updateSalle(@PathVariable long id, @RequestBody SalleProxy salleProxy) {
-        return null;
+        if(salleProxy==null){
+            throw new SalleBadRequest("Verifiez le body de la salle");
+        }
+        Salle updateSalle = salleService.updateSalle(salleProxy,id);
+        return ResponseEntity.ok(updateSalle);
     }
 
     @DeleteMapping("/salles/{id}")

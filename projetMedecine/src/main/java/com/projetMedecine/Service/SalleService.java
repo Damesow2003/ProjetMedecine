@@ -17,27 +17,40 @@ public class SalleService {
     @Autowired
     CabinetMedicalRepository cabinetMedicalRepository;
 
-    public Iterable<Salle> salles(){
+    public Iterable<Salle> salles() {
         return salleRepository.findAll();
     }
-    public Optional<Salle> salle(long id){
+
+    public Optional<Salle> salle(long id) {
         return salleRepository.findById(id);
     }
-    public Salle saveSalle(SalleProxy salleProxy){
+
+    public Salle saveSalle(SalleProxy salleProxy) {
         Salle salle = new Salle();
         salle.setNumeroSalle(salleProxy.getNumeroSalle());
         salle.setNomSalle(salleProxy.getNomSalle());
 
-        if(salleProxy.getIdCabinet()!= null){
-         Optional<CabinetMedical> existingCabinet = Optional.ofNullable(cabinetMedicalRepository.findById(salleProxy.getIdCabinet())
-                 .orElseThrow(() -> new RuntimeException("Cabinet not found")));
-         salle.setCabinetMedical(existingCabinet.get());
+        if (salleProxy.getIdCabinet() != null) {
+            Optional<CabinetMedical> existingCabinet = Optional.ofNullable(cabinetMedicalRepository.findById(salleProxy.getIdCabinet())
+                    .orElseThrow(() -> new RuntimeException("Cabinet not found")));
+            salle.setCabinetMedical(existingCabinet.get());
         }
         return salleRepository.save(salle);
     }
 
+    public Salle updateSalle(SalleProxy salleProxy, long id) {
+        Optional<Salle> existingSalle = salleRepository.findById(id);
+        Salle updatedSalle = existingSalle.get();
+        updatedSalle.setNumeroSalle(salleProxy.getNumeroSalle());
+        updatedSalle.setNomSalle(salleProxy.getNomSalle());
+        if (salleProxy.getIdCabinet() != null) {
+            Optional<CabinetMedical> existingCabinet = cabinetMedicalRepository.findById(salleProxy.getIdCabinet());
+            updatedSalle.setCabinetMedical(existingCabinet.get());
+        }
+        return salleRepository.save(updatedSalle);
+    }
 
-    public void deleteSalle(long id){
+    public void deleteSalle(long id) {
         salleRepository.deleteById(id);
     }
 }
