@@ -12,10 +12,14 @@ public class CabinetMedicalService {
     @Autowired
     private CabinetMedicalRepository cabinetMedicalRepository;
 
-    public Iterable<CabinetMedical> getCabinetMedicals(){
+    public Iterable<CabinetMedical> getCabinetMedicals() {
         return cabinetMedicalRepository.findAll();
     }
-    public Optional<CabinetMedical> getCabinetMedical(long id){
+
+    public Optional<CabinetMedical> getCabinetMedical(long id) {
         return cabinetMedicalRepository.findById(id);
+    }
+    public CabinetMedical saveCabinetMedical(CabinetMedical cabinetMedical){
+        return cabinetMedicalRepository.save(cabinetMedical);
     }
 }
