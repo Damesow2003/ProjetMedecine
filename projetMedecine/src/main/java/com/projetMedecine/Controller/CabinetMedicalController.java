@@ -47,7 +47,7 @@ public class CabinetMedicalController {
 
         return ResponseEntity.ok(updateCabinet);
     }
-    @DeleteMapping("/cabinets")
+    @DeleteMapping("/cabinets/{id}")
     public String deleteCabinetMedical(@PathVariable long id){
         cabinetMedicalService.deleteCabinetMedical(id);
         return "Le cabinet a ete supprimer avec success";

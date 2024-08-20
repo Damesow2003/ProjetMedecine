@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name="salle")
@@ -28,4 +31,18 @@ public class Salle {
     @JoinColumn(name="id_cabinet")
     @JsonBackReference
     private CabinetMedical cabinetMedical;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            }
+    )
+    @JoinTable(
+            name="salle_medecin",
+            joinColumns = @JoinColumn(name = "id_salle"),
+            inverseJoinColumns = @JoinColumn(name="matricule")
+    )
+    private List<Medecin> medecins = new ArrayList<>();
 }
