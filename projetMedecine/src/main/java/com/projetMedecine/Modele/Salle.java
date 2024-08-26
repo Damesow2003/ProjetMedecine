@@ -2,6 +2,7 @@ package com.projetMedecine.Modele;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -45,4 +46,13 @@ public class Salle {
             inverseJoinColumns = @JoinColumn(name="matricule")
     )
     private List<Medecin> medecins = new ArrayList<>();
+
+    @OneToMany(
+            fetch= FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            mappedBy = "salle"
+    )
+    @JsonManagedReference
+    private List<Traitement> traitements = new ArrayList<>();
+
 }
