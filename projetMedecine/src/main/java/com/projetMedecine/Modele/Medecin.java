@@ -24,4 +24,18 @@ public class Medecin {
     )
     @JsonManagedReference
     private List<Traitement> traitementList = new ArrayList<>();
+
+    @ManyToMany(
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            },
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(
+            name="cabinet_medecin",
+            joinColumns = @JoinColumn(name="matricule"),
+            inverseJoinColumns = @JoinColumn(name = "id_cabinet")
+    )
+    private List<CabinetMedical> cabinetMedicals = new ArrayList<>();
 }
