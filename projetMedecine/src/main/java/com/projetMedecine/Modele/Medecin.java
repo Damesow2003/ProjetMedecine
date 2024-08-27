@@ -16,17 +16,4 @@ public class Medecin {
     String specialite;
     String telephone;
 
-    @ManyToMany(
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            },
-            fetch = FetchType.LAZY
-    )
-    @JoinTable(
-            name="cabinet_medecin",
-            joinColumns = @JoinColumn(name="matricule"),
-            inverseJoinColumns = @JoinColumn(name = "id_cabinet")
-    )
-    private List<CabinetMedical> cabinetMedicals = new ArrayList<>();
 }
