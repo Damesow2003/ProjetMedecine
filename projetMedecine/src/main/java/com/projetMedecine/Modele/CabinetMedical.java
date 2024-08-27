@@ -17,7 +17,7 @@ public class CabinetMedical {
     private Long idCabinet;
     private String adresse;
     private String nom;
-    @ManyToMany(
+/*    @ManyToMany(
         fetch = FetchType.LAZY,
         cascade = {
                 CascadeType.PERSIST,
@@ -29,7 +29,7 @@ public class CabinetMedical {
             joinColumns = @JoinColumn(name="id_cabinet"),
             inverseJoinColumns = @JoinColumn(name="matricule")
     )
-    private List<Medecin> medecins = new ArrayList<>();
+    private List<Medecin> medecins = new ArrayList<>();*/
 
     @OneToMany(
             cascade = CascadeType.ALL,

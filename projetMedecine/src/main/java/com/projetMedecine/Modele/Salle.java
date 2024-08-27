@@ -33,20 +33,6 @@ public class Salle {
     @JsonBackReference
     private CabinetMedical cabinetMedical;
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            }
-    )
-    @JoinTable(
-            name="salle_medecin",
-            joinColumns = @JoinColumn(name = "id_salle"),
-            inverseJoinColumns = @JoinColumn(name="matricule")
-    )
-    private List<Medecin> medecins = new ArrayList<>();
-
     @OneToMany(
             fetch= FetchType.EAGER,
             cascade = CascadeType.ALL,

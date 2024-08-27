@@ -5,12 +5,14 @@ import com.projetMedecine.Modele.Salle;
 import com.projetMedecine.Modele.SalleProxy;
 import com.projetMedecine.Repository.CabinetMedicalRepository;
 import com.projetMedecine.Repository.SalleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class SalleService {
     @Autowired
     SalleRepository salleRepository;
