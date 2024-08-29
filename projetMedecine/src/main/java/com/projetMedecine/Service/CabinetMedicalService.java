@@ -5,6 +5,7 @@ import com.projetMedecine.Modele.CabinetMedicalProxy;
 import com.projetMedecine.Modele.Rendezvous;
 import com.projetMedecine.Repository.CabinetMedicalRepository;
 import com.projetMedecine.Repository.RendezVousRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CabinetMedicalService {
     @Autowired
     private CabinetMedicalRepository cabinetMedicalRepository;

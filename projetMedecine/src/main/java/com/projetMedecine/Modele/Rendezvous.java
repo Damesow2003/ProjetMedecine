@@ -67,6 +67,13 @@ public class Rendezvous {
     @JsonBackReference
     private CabinetMedical cabinetMedical;
 
+    @OneToOne(
+            mappedBy = "rendezvous",
+            fetch = FetchType.EAGER
+    )
+    @JsonBackReference
+    private Traitement traitement;
+
     //methode Utilitaire Notification(helpers methode)
 
     public void addNotification(Notification notification){

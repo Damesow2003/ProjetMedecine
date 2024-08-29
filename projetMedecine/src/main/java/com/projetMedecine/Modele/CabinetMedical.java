@@ -1,5 +1,8 @@
 package com.projetMedecine.Modele;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "cabinet_medical")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CabinetMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,19 +21,10 @@ public class CabinetMedical {
     private Long idCabinet;
     private String adresse;
     private String nom;
-/*    @ManyToMany(
-        fetch = FetchType.LAZY,
-        cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-        }
-    )
-    @JoinTable(
-            name = "cabinet_medecin",
-            joinColumns = @JoinColumn(name="id_cabinet"),
-            inverseJoinColumns = @JoinColumn(name="matricule")
-    )
-    private List<Medecin> medecins = new ArrayList<>();*/
+
+    @ManyToMany(mappedBy = "cabinetMedicals")
+    @JsonBackReference
+    private List<Medecin> medecins = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,

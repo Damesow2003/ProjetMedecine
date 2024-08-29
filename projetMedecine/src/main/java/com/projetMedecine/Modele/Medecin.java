@@ -1,5 +1,6 @@
 package com.projetMedecine.Modele;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "medecin")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Medecin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +39,6 @@ public class Medecin {
             joinColumns = @JoinColumn(name="matricule"),
             inverseJoinColumns = @JoinColumn(name = "id_cabinet")
     )
+    @JsonManagedReference
     private List<CabinetMedical> cabinetMedicals = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package com.projetMedecine.Modele;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -36,4 +37,12 @@ public class Traitement {
     @JsonBackReference
     @JoinColumn(name="matricule_medecin")
     private Medecin medecin;
+
+    @OneToOne(
+            fetch = FetchType.EAGER
+    )
+    @JsonManagedReference
+    @JoinColumn(name="id_rendezvous")
+    private Rendezvous rendezvous;
+
 }
