@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,7 @@ public class TraitementService {
     public Traitement saveTraitement(TraitementProxy traitementProxy){
         Traitement newTraitement = new Traitement();
         newTraitement.setNom(traitementProxy.getNom());
+        newTraitement.setIdPatient(traitementProxy.getIdPatient());
 
         if(traitementProxy.getIdSalle()!=0){
             Optional<Salle> existingSalle = Optional.ofNullable(salleRepository.findById(traitementProxy.getIdSalle())
@@ -61,6 +63,7 @@ public class TraitementService {
         Traitement updatedTraitement = existingTraitement.get();
 
         updatedTraitement.setNom(traitementProxy.getNom());
+        updatedTraitement.setIdPatient(traitementProxy.getIdPatient());
 
 
         if(traitementProxy.getIdSalle()!=0){
@@ -78,6 +81,15 @@ public class TraitementService {
             updatedTraitement.setMedecin(existingMedecin.get());
         }
         return traitementRepository.save(updatedTraitement);
+    }
+
+    public List<Traitement> findTraitementByidPatient(long id){
+        List<Traitement> traitementPatient = traitementRepository.findTraitementByIdPatient(id);
+
+        if(traitementPatient.isEmpty()){
+            throw new TraitementBadRequest("il y'a aucun traitement associer a cette id "+id);
+        }
+        return traitementPatient;
     }
 
     public void deleteTraitement(long id){

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="salle")
+@DynamicUpdate
 public class Salle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

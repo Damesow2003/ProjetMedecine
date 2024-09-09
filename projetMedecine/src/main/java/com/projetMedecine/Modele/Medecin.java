@@ -2,19 +2,24 @@ package com.projetMedecine.Modele;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "medecin")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Medecin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name="medecin")
+@JsonTypeName("MEDECIN")
+@PrimaryKeyJoinColumn(name="id_utilisateur")
+@DynamicUpdate
+public class Medecin extends Utilisateur {
+
     Long matricule;
     String specialite;
     String telephone;

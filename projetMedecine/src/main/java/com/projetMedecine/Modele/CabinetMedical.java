@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "cabinet_medical")
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@DynamicUpdate
 public class CabinetMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

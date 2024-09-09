@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name="traitement")
 @Data
+@DynamicUpdate
 public class Traitement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +17,8 @@ public class Traitement {
     private Long idTraitement;
     //nouvelle modification de la modele j'ai ajoute une attribut nom du traitement
     private String nom;
+    @Column(name = "id_patient")
+    private int idPatient;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

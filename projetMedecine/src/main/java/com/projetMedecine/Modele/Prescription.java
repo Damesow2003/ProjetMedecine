@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
 @Table(name = "prescription")
+@DynamicUpdate
 public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

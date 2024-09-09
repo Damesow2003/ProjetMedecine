@@ -1,8 +1,10 @@
 package com.projetMedecine.Controller;
 
 import com.projetMedecine.Exceptions.TraitementBadRequest;
+import com.projetMedecine.Modele.Patient;
 import com.projetMedecine.Modele.Traitement;
 import com.projetMedecine.Modele.TraitementProxy;
+import com.projetMedecine.Service.PatientService;
 import com.projetMedecine.Service.TraitementService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class TraitementController {
     @Autowired
     private TraitementService traitementService;
-
+    @Autowired
+    private PatientService patientService;
     @GetMapping("/traitements")
     public Iterable<Traitement> getTraitements(){
         return traitementService.getTraitements();
@@ -25,6 +29,12 @@ public class TraitementController {
     @GetMapping("/traitements/{id}")
     public Optional<Traitement> getTraitement(@PathVariable long id){
         return traitementService.getTraitement(id);
+    }
+
+    @GetMapping("/traitements-patients/{id}")
+    public List<Traitement> traitementsPatients(@PathVariable long id){
+        List<Traitement> traitements = traitementService.findTraitementByidPatient(id);
+        return  traitements;
     }
 
     @PostMapping("/traitements")
