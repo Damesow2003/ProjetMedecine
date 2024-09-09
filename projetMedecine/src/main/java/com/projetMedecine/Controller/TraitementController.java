@@ -55,7 +55,7 @@ public class TraitementController {
 
     @DeleteMapping("/traitements/{id}")
     public String deleteTraitement(@PathVariable long id){
-        deleteTraitement(id);
+        traitementService.deleteTraitement(id);
         return "La suppression a ete effectue avec succes";
     }
 }
