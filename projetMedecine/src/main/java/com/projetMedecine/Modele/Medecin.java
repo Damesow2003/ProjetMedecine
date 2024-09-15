@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name="medecin")
@@ -32,13 +31,13 @@ public class Medecin extends Utilisateur {
     @JsonManagedReference
     private List<Traitement> traitementList = new ArrayList<>();
 
-    @ManyToMany(
+   @ManyToMany(
             cascade = {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
             fetch = FetchType.LAZY
-    )
+   )
     @JoinTable(
             name="cabinet_medecin",
             joinColumns = @JoinColumn(name="matricule"),

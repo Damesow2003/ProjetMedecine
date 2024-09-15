@@ -21,10 +21,6 @@ public class Prescription {
     private LocalDate date;
 
     @ManyToOne(
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            },
             fetch = FetchType.LAZY
     )
     @JsonBackReference

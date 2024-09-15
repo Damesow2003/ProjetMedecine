@@ -60,17 +60,17 @@ public class RendezVousController {
 
         return ResponseEntity.created(location).build();
     }
-   /* @PutMapping("/rendezvous/{id}") // ici il y'a incorrence au niveau des donnees
-    public ResponseEntity<Rendezvous> updateRendezvous(@PathVariable long id,@Valid  @RequestBody Rendezvous updateRendezvous){
+   @PutMapping("/rendezvous/{id}") // ici il y'a incorrence au niveau des donnees
+    public ResponseEntity<Rendezvous> updateRendezvous(@PathVariable long id,@Valid  @RequestBody RendezvousProxy updateRendezvous){
         if(updateRendezvous ==null){
             throw new RendezvousBadRequest("Impossible d'ajouter un rendezvous car le body est null");
         }
 
-        Rendezvous updatedRendezvous = rendezVousService.updatedRendezvous(updateRendezvous,id);
-        System.out.println(updatedRendezvous);
+        Rendezvous updatedRendezvous = rendezVousService.updateRendezvous(id,updateRendezvous);
+
         return ResponseEntity.ok(updatedRendezvous);
 
-    }*/
+    }
 
     @DeleteMapping("/rendezvous/{id}")
     public String deleteRendezvous(@PathVariable  long id){

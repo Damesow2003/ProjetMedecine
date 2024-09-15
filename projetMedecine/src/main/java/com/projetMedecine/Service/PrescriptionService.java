@@ -5,6 +5,7 @@ import com.projetMedecine.Modele.Prescription;
 import com.projetMedecine.Modele.PrescriptionProxy;
 import com.projetMedecine.Modele.Rendezvous;
 import com.projetMedecine.Repository.PrescriptionRepository;
+import com.projetMedecine.Repository.RendezVousRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class PrescriptionService {
     @Autowired
     private PrescriptionRepository prescriptionRepository;
     @Autowired
-    private RendezVousService rendezVousService;
+    private RendezVousRepository rendezVousRepository;
     public Iterable<Prescription> prescriptions(){
 
         return prescriptionRepository.findAll();
@@ -27,40 +28,32 @@ public class PrescriptionService {
         return prescriptionRepository.findById(id);
     }
 
+    public void deletePrescriptionById(long id){
+        prescriptionRepository.deleteById(id);
+    }
+
     public Prescription savePrescription(PrescriptionProxy prescriptionProxy){
-        System.out.println("medicament "+prescriptionProxy.getMedicament());
-        System.out.println("Date "+prescriptionProxy.getDate());
-        System.out.println("IdRendezvous "+prescriptionProxy.getIdRendezvous());
         Prescription newPrescription = new Prescription();
         newPrescription.setMedicament(prescriptionProxy.getMedicament());
         newPrescription.setDate(prescriptionProxy.getDate());
-        if(prescriptionProxy.getIdRendezvous() != 0){
-            Optional<Rendezvous> existingRendezvous = rendezVousService.getRendezvousById(prescriptionProxy.getIdRendezvous());
+
+        if(prescriptionProxy.getIdRendezvous()!=null){
+            Optional<Rendezvous> existingRendezvous = Optional.ofNullable(rendezVousRepository.findById(prescriptionProxy.getIdRendezvous())
+                    .orElseThrow(() -> new RuntimeException("Rendezvous not found")));
             newPrescription.setRendezvous(existingRendezvous.get());
         }
         return prescriptionRepository.save(newPrescription);
     }
-    public Prescription updatedPrescription(PrescriptionProxy prescriptionProxy, long id){
-        Optional<Prescription> existingPrescription = prescriptionRepository.findById(id);
+    public Prescription updatePrescription(PrescriptionProxy prescriptionProxy,long id){
+         Optional<Prescription> existingPrescription = prescriptionRepository.findById(id);
 
-            Prescription updatePrescription = existingPrescription.get();
-            updatePrescription.setDate(prescriptionProxy.getDate());
-            updatePrescription.setMedicament(prescriptionProxy.getMedicament());
+         Prescription updatePrescription = existingPrescription.get();
+         updatePrescription.setMedicament(prescriptionProxy.getMedicament());
+         updatePrescription.setDate(prescriptionProxy.getDate());
+        Optional<Rendezvous> existingRendezvous = Optional.ofNullable(rendezVousRepository.findById(prescriptionProxy.getIdRendezvous())
+                .orElseThrow(() -> new RuntimeException("Rendezvous not found")));
+        updatePrescription.setRendezvous(existingRendezvous.get());
 
-            if(prescriptionProxy.getIdRendezvous() != null){
-                Optional<Rendezvous> existingRendezvous = rendezVousService.getRendezvousById(prescriptionProxy.getIdRendezvous());
-                updatePrescription.setRendezvous(existingRendezvous.get());
-
-            }
-            return prescriptionRepository.save(updatePrescription);
-
-    }
-
-
-    public List<Prescription> allPrescriptionById(List<Long>ids){
-        return prescriptionRepository.findAllById(ids);
-    }
-    public void deletePrescriptionById(long id){
-        prescriptionRepository.deleteById(id);
+        return prescriptionRepository.save(updatePrescription);
     }
 }

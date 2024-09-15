@@ -8,5 +8,6 @@ import java.util.List;
 public class CabinetMedicalProxy {
     private String adresse;
     private String nom;
-    private List<Long> idCabinetMedical;
+    //private List<Long> idCabinetMedical;
+
 }

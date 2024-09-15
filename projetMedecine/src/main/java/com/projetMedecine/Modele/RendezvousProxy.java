@@ -12,7 +12,8 @@ public class RendezvousProxy {
     private LocalDate dateRv;
     private LocalDateTime heureRv;
     private int duree;
-    private List<Long> idNotification;
-    private List<Long> idPrescription;
+  //  private List<Long> idNotification;
+    //private List<Long> idPrescription;
     private Long idPaiement;
+    private Long idCabinet;
 }

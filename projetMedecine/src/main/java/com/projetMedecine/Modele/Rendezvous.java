@@ -64,7 +64,6 @@ public class Rendezvous {
     @JoinColumn(name = "id_cabinet")
     @JsonBackReference
     private CabinetMedical cabinetMedical;
-
     @OneToOne(
             mappedBy = "rendezvous",
             orphanRemoval = true,

@@ -5,6 +5,7 @@ import com.projetMedecine.Exceptions.PaiementImpossibleException;
 import com.projetMedecine.Exceptions.PaiementNotFound;
 import com.projetMedecine.Exceptions.RendezvousNotFound;
 import com.projetMedecine.Modele.Paiement;
+import com.projetMedecine.Modele.PaiementProxy;
 import com.projetMedecine.Modele.Rendezvous;
 import com.projetMedecine.Service.PaiementService;
 import com.projetMedecine.Service.RendezVousService;
@@ -39,38 +40,28 @@ public class PaiementController {
         return ResponseEntity.ok(existingPaiement);
     }
     @PostMapping("/paiements")
-    public ResponseEntity<Paiement> savePaiement(@Valid @RequestBody Paiement paiement) {
-        Optional<Rendezvous> existingPaiement = rendezVousService.getRendezvousById(paiement.getId());
+    public ResponseEntity<Paiement> savePaiement(@Valid @RequestBody PaiementProxy paiementProxy) {
+    /*    Optional<Rendezvous> existingPaiement = rendezVousService.getRendezvousById(paiement.getId());
 
         if(existingPaiement.isPresent()){
             throw new ExistingPaiementException("Paiement deja effectuer");
-        }
-        Paiement nouveauPaiement = paiementService.savePaiement(paiement);
+        }*/
+        Paiement nouveauPaiement = paiementService.savePaiement(paiementProxy);
         if(nouveauPaiement == null){
             throw new PaiementImpossibleException("Impossible d'effectuer un paiement pour le moment, Veuillez reesseyer plus tard");
         }
 
-        return new ResponseEntity<Paiement>(nouveauPaiement,HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nouveauPaiement);
     }
     @PutMapping("/paiements/{id}")
-    public ResponseEntity<Paiement> updatePaiement(@PathVariable long id,@RequestBody @Valid Paiement paiement){
-        if(paiement==null){
-                return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Paiement> updatePaiement(@PathVariable long id,@RequestBody @Valid PaiementProxy paiementProxy){
         Optional<Paiement> existingPaiement = paiementService.paiement(id);
-
-        if(!existingPaiement.isPresent()){
-            return ResponseEntity.notFound().build();
+        if(existingPaiement.isEmpty()){
+            throw new PaiementNotFound("Le paiement avec l' "+id+" est introuvable");
         }
+        Paiement updatePaiement = paiementService.updatePaiement(paiementProxy,id);
 
-        Paiement updatePaiement = existingPaiement.get();
-
-        updatePaiement.setModeDePaiement(paiement.getModeDePaiement());
-        updatePaiement.setMontant(updatePaiement.getMontant());
-
-        Paiement savedPaiement = paiementService.savePaiement(updatePaiement);
-
-        return ResponseEntity.ok(savedPaiement);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatePaiement);
     }
     @DeleteMapping("/paiements/{id}")
     public String deletePaiement(@PathVariable long id){

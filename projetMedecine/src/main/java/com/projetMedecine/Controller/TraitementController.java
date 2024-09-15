@@ -1,7 +1,6 @@
 package com.projetMedecine.Controller;
 
 import com.projetMedecine.Exceptions.TraitementBadRequest;
-import com.projetMedecine.Modele.Patient;
 import com.projetMedecine.Modele.Traitement;
 import com.projetMedecine.Modele.TraitementProxy;
 import com.projetMedecine.Service.PatientService;

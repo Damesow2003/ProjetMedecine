@@ -24,24 +24,25 @@ public class CabinetMedical {
     private String adresse;
     private String nom;
 
+
     @ManyToMany(mappedBy = "cabinetMedicals")
     @JsonBackReference
     private List<Medecin> medecins = new ArrayList<>();
 
-    @OneToMany(
+
+   @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "cabinetMedical"
-    )
+   )
     @JsonManagedReference
      List<Salle> salles = new ArrayList<>();
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            orphanRemoval = true,
-            mappedBy = "cabinetMedical"
-    )
-    @JsonManagedReference
-    private List<Rendezvous> rendezvous = new ArrayList<>();
+   @OneToMany(
+           cascade = CascadeType.ALL,
+           fetch = FetchType.LAZY,
+          mappedBy = "cabinetMedical"
+   )
+   @JsonManagedReference
+   //@JoinColumn(name="id_cabinet")
+    private List<Rendezvous> rendezvousList = new ArrayList<>();
 }

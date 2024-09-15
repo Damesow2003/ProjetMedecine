@@ -1,6 +1,7 @@
 package com.projetMedecine.Service;
 
 import com.projetMedecine.Exceptions.PaiementNotFound;
+import com.projetMedecine.Exceptions.RendezvousBadRequest;
 import com.projetMedecine.Modele.*;
 import com.projetMedecine.Repository.*;
 import jakarta.transaction.Transactional;
@@ -40,20 +41,42 @@ public class RendezVousService {
 
         //Association avec Notification
         /*List<Notification> notificationList = notificationRepository.findAllById(rendezvousProxy.getIdNotification());
-        newRendezvous.setNotifications(notificationList);
+        newRendezvous.setNotifications(notificationList);*/
 
         //Association avec Prescription
-        List<Prescription> prescriptionList = prescriptionRepository.findAllById(rendezvousProxy.getIdPrescription());
-        newRendezvous.setPrescriptions(prescriptionList);
+        /*List<Prescription> prescriptionList = prescriptionRepository.findAllById(rendezvousProxy.getIdPrescription());
+        newRendezvous.setPrescriptions(prescriptionList);*/
 
         //Association avec Paiement
         Optional<Paiement> existingPaiement = Optional.ofNullable(paiementRepository.findById(rendezvousProxy.getIdPaiement())
                 .orElseThrow(() -> new PaiementNotFound("Paiement non trouve")));
-        newRendezvous.setPaiement(existingPaiement.get());*/
-
+        newRendezvous.setPaiement(existingPaiement.get());
+        //Association avec Cabinet
+        Optional<CabinetMedical> existingCabinet = Optional.ofNullable(cabinetMedicalRepository.findById(rendezvousProxy.getIdCabinet())
+                .orElseThrow(() -> new RuntimeException("Cabinet medecial non trouve")));
+        newRendezvous.setCabinetMedical(existingCabinet.get());
         return rendezVousRepository.save(newRendezvous);
     }
+    public Rendezvous updateRendezvous(long id, RendezvousProxy rendezvousProxy){
+        Optional<Rendezvous> existingRendezvous = rendezVousRepository.findById(id);
+        if(existingRendezvous.isEmpty()){
+            throw new RendezvousBadRequest("Veuillez saisir un body non null (remplissez les infos que vous souhaitez mettre a jour)");
+        }
+        Rendezvous updatedRendezvous = existingRendezvous.get();
+        updatedRendezvous.setDateRv(rendezvousProxy.getDateRv());
+        updatedRendezvous.setHeureRv(rendezvousProxy.getHeureRv());
+        updatedRendezvous.setDuree(rendezvousProxy.getDuree());
 
+        Optional<Paiement> existingPaiement = paiementRepository.findById(rendezvousProxy.getIdPaiement());
+        if(existingRendezvous.isPresent()){
+            updatedRendezvous.setPaiement(existingPaiement.get());
+        }
+        Optional<CabinetMedical> existingCabinet = cabinetMedicalRepository.findById(rendezvousProxy.getIdCabinet());
+        if(existingCabinet.isPresent()){
+            updatedRendezvous.setCabinetMedical(existingCabinet.get());
+        }
+        return updatedRendezvous;
+    }
     public void deleteRendezvous(long id){
         rendezVousRepository.deleteById(id);
     }

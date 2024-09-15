@@ -33,11 +33,20 @@ public class CabinetMedicalService {
         newCabinetMedical.setAdresse(cabinetMedicalProxy.getAdresse());
         newCabinetMedical.setNom(cabinetMedicalProxy.getNom());
         //Association avec Rendezvous(sa permet l'ajout de la clef etrangeres)
-        if (cabinetMedicalProxy.getIdCabinetMedical() != null) {
+      /*  if (cabinetMedicalProxy.getIdCabinetMedical() != null) {
             List<Rendezvous> rendezvousList = rendezVousRepository.findAllById(cabinetMedicalProxy.getIdCabinetMedical());
-            newCabinetMedical.setRendezvous(rendezvousList);
-        }
+            //newCabinetMedical.setRendezvous(rendezvousList);
+            newCabinetMedical.setRendezvousList(rendezvousList);
+        }*/
         return cabinetMedicalRepository.save(newCabinetMedical);
+    }
+    public CabinetMedical updateCabinetMedical(long id,CabinetMedicalProxy cabinetMedicalProxy){
+        Optional<CabinetMedical> existingCabinet = cabinetMedicalRepository.findById(id);
+        CabinetMedical updatedCabinetMedical = existingCabinet.get();
+       updatedCabinetMedical.setAdresse(cabinetMedicalProxy.getAdresse());
+       updatedCabinetMedical.setNom(cabinetMedicalProxy.getNom());
+
+       return cabinetMedicalRepository.save(updatedCabinetMedical);
     }
     public void deleteCabinetMedical(long id){
         cabinetMedicalRepository.deleteById(id);
