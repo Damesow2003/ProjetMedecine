@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/projet_medecine?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&useSSL=false
+      SPRING_DATATSOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Buhaha2003#
+      SPRING_JPA_HIBERNATE_DDL-AUTO: none
+      SPRING_JPA_PROPERTIES_HIBBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_SHOW_SQL: "true"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Buhaha2003#
+      MYSQL_DATABASES: projet_medecine
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+volumes:
+  db-data:
+
